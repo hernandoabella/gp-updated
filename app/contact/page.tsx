@@ -1,258 +1,274 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+"use client";
+
+import { useState } from "react";
 import {
-  FaArrowRight,
-  FaEnvelope,
-  FaGlobe,
-  FaLocationDot,
-  FaWhatsapp,
+    FaEnvelope,
+    FaPhone,
+    FaLocationDot,
+    FaClock,
+    FaPaperPlane,
+    FaCircleCheck,
+    FaXmark,
 } from "react-icons/fa6";
+import { Footer } from "../components/Footer";
+import { Header } from "../components/Header";
 
-export const metadata: Metadata = {
-  title: "Contact | G&P Ship Agency & Co.",
-  description:
-    "Contact G&P Ship Agency & Co. through a refined inquiry page designed for direct maritime communication.",
-};
+export default function ContactPage() {
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        vessel: "",
+        message: "",
+    });
 
-async function submitContactForm(formData: FormData) {
-  "use server";
+    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+    const [errorMessage, setErrorMessage] = useState("");
 
-  const query = new URLSearchParams({
-    sent: "true",
-    name: String(formData.get("fullName") ?? ""),
-  });
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.id]: e.target.value,
+        });
+    };
 
-  redirect(`/contact?${query.toString()}`);
-}
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setStatus("loading");
+        setErrorMessage("");
 
-type ContactPageProps = {
-  searchParams: Promise<{ sent?: string; name?: string }>;
-};
-
-export default async function ContactPage(props: ContactPageProps) {
-  const searchParams = await props.searchParams;
-  const isSent = searchParams.sent === "true";
-  const submittedName = searchParams.name?.trim();
-
-  return (
-    <main className="bg-[var(--color-paper)] text-[var(--color-ink)]">
-      <section className="px-6 pb-24 pt-10 sm:px-10 lg:px-12">
-        <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-          <div>
-            <p className="font-[family-name:var(--font-subtitle)] text-xs uppercase tracking-[0.42em] text-[var(--color-accent-strong)]">
-              Contact
-            </p>
-            <h1 className="mt-5 font-[family-name:var(--font-display)] text-5xl leading-[0.94] text-balance sm:text-6xl">
-              Direct communication with protocol and precision.
-            </h1>
-            <p className="mt-6 max-w-xl text-base leading-8 text-[var(--color-muted)] sm:text-lg">
-              Built in English, refined in tone, and aligned with the new
-              visual identity. This page is meant to feel institutional,
-              ceremonial, and immediately useful for serious maritime
-              inquiries.
-            </p>
-
-            <div className="mt-10 grid gap-5">
-              {[
-                {
-                  label: "Email",
-                  value: "operations@gpshipagency.com",
-                  href: "mailto:operations@gpshipagency.com",
-                  icon: FaEnvelope,
+        try {
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
                 },
-                {
-                  label: "WhatsApp",
-                  value: "Open direct conversation",
-                  href: "https://wa.me/?text=Hello%20G%26P%20Ship%20Agency%20%26%20Co.%20I%20would%20like%20to%20request%20more%20information.",
-                  icon: FaWhatsapp,
-                },
-                {
-                  label: "Navigation",
-                  value: "Return to the institutional homepage",
-                  href: "/",
-                  icon: FaGlobe,
-                },
-              ].map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  target={item.href.startsWith("http") ? "_blank" : undefined}
-                  rel={
-                    item.href.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
-                  }
-                  className="border border-[rgba(11,30,62,0.08)] bg-white px-6 py-6 shadow-[0_16px_40px_rgba(11,30,62,0.06)] hover:-translate-y-0.5"
-                >
-                  <item.icon className="text-base text-[var(--color-accent-strong)]" />
-                  <p className="font-[family-name:var(--font-subtitle)] text-[11px] uppercase tracking-[0.34em] text-[var(--color-accent-strong)]">
-                    {item.label}
-                  </p>
-                  <p className="mt-3 font-[family-name:var(--font-display)] text-3xl text-[var(--color-ink)]">
-                    {item.value}
-                  </p>
-                </a>
-              ))}
-            </div>
-          </div>
+                body: JSON.stringify(formData),
+            });
 
-          <div className="border border-[rgba(11,30,62,0.08)] bg-white p-8 shadow-[0_26px_70px_rgba(11,30,62,0.08)] sm:p-10">
-            <div className="flex items-start justify-between gap-6">
-              <div>
-                <p className="font-[family-name:var(--font-subtitle)] text-xs uppercase tracking-[0.42em] text-[var(--color-accent-strong)]">
-                  Inquiry form
-                </p>
-                <h2 className="mt-4 font-[family-name:var(--font-display)] text-4xl text-balance">
-                  Share your vessel, port, or service requirement.
-                </h2>
-              </div>
+            const data = await response.json();
 
-              <Link
-                href="/#services"
-                className="hidden border border-[var(--color-accent)] px-4 py-2 font-[family-name:var(--font-subtitle)] text-[11px] uppercase tracking-[0.24em] text-[var(--color-ink)] hover:bg-[var(--color-accent)] lg:inline-flex"
-              >
-                <FaArrowRight className="mr-2 text-[11px]" />
-                See services
-              </Link>
-            </div>
+            if (response.ok) {
+                setStatus("success");
+                setFormData({
+                    name: "",
+                    email: "",
+                    phone: "",
+                    vessel: "",
+                    message: "",
+                });
+                setTimeout(() => setStatus("idle"), 5000);
+            } else {
+                throw new Error(data.error || "Something went wrong");
+            }
+        } catch (error) {
+            setStatus("error");
+            setErrorMessage(error instanceof Error ? error.message : "Failed to send message");
+            setTimeout(() => setStatus("idle"), 5000);
+        }
+    };
 
-            {isSent ? (
-              <div className="mt-8 border border-[rgba(193,164,95,0.34)] bg-[linear-gradient(160deg,#f7f6f2_0%,#ece7d9_100%)] px-5 py-4">
-                <p className="font-[family-name:var(--font-subtitle)] text-[11px] uppercase tracking-[0.32em] text-[var(--color-accent-strong)]">
-                  Inquiry registered
-                </p>
-                <p className="mt-2 text-sm leading-7 text-[var(--color-muted)]">
-                  Thank you
-                  {submittedName ? `, ${submittedName}` : ""}. Your inquiry
-                  flow is ready. The next step can be wiring this form to email,
-                  CRM, or WhatsApp automation while preserving the same
-                  high-protocol presentation.
-                </p>
-              </div>
-            ) : null}
+    return (
+        <main className="bg-[#f7f6f2]">
+            <Header />
+            {/* Hero Section */}
+            <section className="px-6 pt-32 pb-12 sm:px-10 lg:px-12">
+                <div className="mx-auto max-w-7xl">
+                    <div className="text-center max-w-3xl mx-auto">
+                        <div className="flex justify-center mb-4">
+                            <div className="h-px w-12 bg-[#c1a45f]" />
+                        </div>
+                        <p className="font-[family-name:var(--font-subtitle)] text-xs uppercase tracking-[0.42em] text-[#c1a45f] mb-4">
+                            Get in Touch
+                        </p>
+                        <h1 className="font-[family-name:var(--font-display)] text-4xl text-balance text-[#0b1e3e] sm:text-5xl lg:text-6xl">
+                            Let's discuss your{' '}
+                            <span className="text-[#c1a45f]">maritime needs</span>
+                        </h1>
+                        <p className="mt-6 text-base leading-7 text-[#3b3b3b]">
+                            Whether you need vessel attendance, protective agency, or special services,
+                            our team is ready to assist with institutional protocol and precision.
+                        </p>
+                    </div>
+                </div>
+            </section>
 
-            <form action={submitContactForm} className="mt-8 grid gap-5">
-              <div className="grid gap-5 sm:grid-cols-2">
-                <label className="grid gap-2">
-                  <span className="font-[family-name:var(--font-subtitle)] text-[11px] uppercase tracking-[0.3em] text-[var(--color-muted)]">
-                    Full name
-                  </span>
-                  <input
-                    name="fullName"
-                    type="text"
-                    required
-                    className="border border-[rgba(11,30,62,0.12)] bg-[var(--color-paper)] px-4 py-3"
-                    placeholder="James Thornton"
-                  />
-                </label>
+            {/* Contact Form Section */}
+            <section className="px-6 py-12 pb-24 sm:px-10 lg:px-12">
+                <div className="mx-auto max-w-7xl">
+                    <div className="grid gap-12 lg:grid-cols-3">
+                        {/* Contact Info */}
+                        <div className="lg:col-span-1">
+                            <div className="bg-white border border-[rgba(11,30,62,0.08)] p-6 shadow-lg">
+                                <div className="mb-6">
+                                    <div className="flex h-12 w-12 items-center justify-center bg-[#c1a45f]/10 mb-4">
+                                        <FaEnvelope className="text-xl text-[#c1a45f]" />
+                                    </div>
+                                    <h3 className="font-[family-name:var(--font-display)] text-lg text-[#0b1e3e]">Email Us</h3>
+                                    <a href="mailto:Info@gpshippingcm.com" className="text-sm text-[#3b3b3b] hover:text-[#c1a45f] transition-colors">
+                                        Info@gpshippingcm.com
+                                    </a>
+                                </div>
 
-                <label className="grid gap-2">
-                  <span className="font-[family-name:var(--font-subtitle)] text-[11px] uppercase tracking-[0.3em] text-[var(--color-muted)]">
-                    Company
-                  </span>
-                  <input
-                    name="company"
-                    type="text"
-                    className="border border-[rgba(11,30,62,0.12)] bg-[var(--color-paper)] px-4 py-3"
-                    placeholder="Atlantic Marine Group"
-                  />
-                </label>
-              </div>
+                                <div className="mb-6">
+                                    <div className="flex h-12 w-12 items-center justify-center bg-[#c1a45f]/10 mb-4">
+                                        <FaPhone className="text-xl text-[#c1a45f]" />
+                                    </div>
+                                    <h3 className="font-[family-name:var(--font-display)] text-lg text-[#0b1e3e]">Call Us</h3>
+                                    <a href="tel:+573116406379" className="text-sm text-[#3b3b3b] hover:text-[#c1a45f] transition-colors">
+                                        +57 3116406379
+                                    </a>
+                                </div>
 
-              <div className="grid gap-5 sm:grid-cols-2">
-                <label className="grid gap-2">
-                  <span className="font-[family-name:var(--font-subtitle)] text-[11px] uppercase tracking-[0.3em] text-[var(--color-muted)]">
-                    Email
-                  </span>
-                  <input
-                    name="email"
-                    type="email"
-                    required
-                    className="border border-[rgba(11,30,62,0.12)] bg-[var(--color-paper)] px-4 py-3"
-                    placeholder="james@company.com"
-                  />
-                </label>
+                                <div className="mb-6">
+                                    <div className="flex h-12 w-12 items-center justify-center bg-[#c1a45f]/10 mb-4">
+                                        <FaLocationDot className="text-xl text-[#c1a45f]" />
+                                    </div>
+                                    <h3 className="font-[family-name:var(--font-display)] text-lg text-[#0b1e3e]">Visit Us</h3>
+                                    <p className="text-sm text-[#3b3b3b]">
+                                        Barranquilla, Atlántico<br />
+                                        Colombia
+                                    </p>
+                                </div>
 
-                <label className="grid gap-2">
-                  <span className="font-[family-name:var(--font-subtitle)] text-[11px] uppercase tracking-[0.3em] text-[var(--color-muted)]">
-                    Phone
-                  </span>
-                  <input
-                    name="phone"
-                    type="tel"
-                    className="border border-[rgba(11,30,62,0.12)] bg-[var(--color-paper)] px-4 py-3"
-                    placeholder="+57 300 000 0000"
-                  />
-                </label>
-              </div>
+                                <div>
+                                    <div className="flex h-12 w-12 items-center justify-center bg-[#c1a45f]/10 mb-4">
+                                        <FaClock className="text-xl text-[#c1a45f]" />
+                                    </div>
+                                    <h3 className="font-[family-name:var(--font-display)] text-lg text-[#0b1e3e]">24/7 Availability</h3>
+                                    <p className="text-sm text-[#3b3b3b]">
+                                        Our team is always ready<br />
+                                        to assist you.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
 
-              <div className="grid gap-5 sm:grid-cols-2">
-                <label className="grid gap-2">
-                  <span className="font-[family-name:var(--font-subtitle)] text-[11px] uppercase tracking-[0.3em] text-[var(--color-muted)]">
-                    Service interest
-                  </span>
-                  <select
-                    name="service"
-                    defaultValue=""
-                    className="border border-[rgba(11,30,62,0.12)] bg-[var(--color-paper)] px-4 py-3"
-                  >
-                    <option value="" disabled>
-                      Select a service
-                    </option>
-                    <option>Port agency</option>
-                    <option>Protective agency</option>
-                    <option>Owner representation</option>
-                    <option>Special operations</option>
-                  </select>
-                </label>
+                        {/* Contact Form */}
+                        <div className="lg:col-span-2">
+                            <div className="bg-white border border-[rgba(11,30,62,0.08)] p-6 shadow-lg md:p-8">
+                                <h2 className="font-[family-name:var(--font-display)] text-2xl text-[#0b1e3e] mb-2">
+                                    Send us a message
+                                </h2>
+                                <p className="text-sm text-[#3b3b3b] mb-6">
+                                    Fill out the form below and we'll get back to you promptly.
+                                </p>
 
-                <label className="grid gap-2">
-                  <span className="font-[family-name:var(--font-subtitle)] text-[11px] uppercase tracking-[0.3em] text-[var(--color-muted)]">
-                    Port or location
-                  </span>
-                  <div className="relative">
-                    <FaLocationDot className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[var(--color-accent-strong)]" />
-                    <input
-                      name="location"
-                      type="text"
-                      className="w-full border border-[rgba(11,30,62,0.12)] bg-[var(--color-paper)] py-3 pl-10 pr-4"
-                      placeholder="Cartagena"
-                    />
-                  </div>
-                </label>
-              </div>
+                                <form onSubmit={handleSubmit} className="space-y-5">
+                                    <div className="grid gap-5 sm:grid-cols-2">
+                                        <div>
+                                            <label htmlFor="name" className="block text-xs uppercase tracking-[0.2em] text-[#3b3b3b] mb-2">
+                                                Full Name *
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="name"
+                                                required
+                                                value={formData.name}
+                                                onChange={handleChange}
+                                                className="w-full border border-[rgba(11,30,62,0.2)] bg-[#f7f6f2] px-4 py-3 text-sm text-[#0b1e3e] focus:border-[#c1a45f] focus:outline-none"
+                                                placeholder="John Doe"
+                                            />
+                                        </div>
 
-              <label className="grid gap-2">
-                <span className="font-[family-name:var(--font-subtitle)] text-[11px] uppercase tracking-[0.3em] text-[var(--color-muted)]">
-                  Message
-                </span>
-                <textarea
-                  name="message"
-                  required
-                  rows={7}
-                  className="resize-none border border-[rgba(11,30,62,0.12)] bg-[var(--color-paper)] px-4 py-3"
-                  placeholder="Please share your vessel details, schedule, preferred service scope, and any operational priorities."
-                />
-              </label>
+                                        <div>
+                                            <label htmlFor="email" className="block text-xs uppercase tracking-[0.2em] text-[#3b3b3b] mb-2">
+                                                Email Address *
+                                            </label>
+                                            <input
+                                                type="email"
+                                                id="email"
+                                                required
+                                                value={formData.email}
+                                                onChange={handleChange}
+                                                className="w-full border border-[rgba(11,30,62,0.2)] bg-[#f7f6f2] px-4 py-3 text-sm text-[#0b1e3e] focus:border-[#c1a45f] focus:outline-none"
+                                                placeholder="john@example.com"
+                                            />
+                                        </div>
+                                    </div>
 
-              <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
-                <p className="max-w-md text-sm leading-7 text-[var(--color-muted)]">
-                  This form is ready for the visual experience now and can be
-                  connected next to your preferred delivery workflow.
-                </p>
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center rounded-full bg-[var(--color-ink)] px-7 py-3 font-[family-name:var(--font-subtitle)] text-xs uppercase tracking-[0.26em] text-[var(--color-paper)] hover:bg-[var(--color-accent-strong)]"
-                >
-                  <FaArrowRight className="mr-2 text-sm" />
-                  Send inquiry
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
+                                    <div className="grid gap-5 sm:grid-cols-2">
+                                        <div>
+                                            <label htmlFor="phone" className="block text-xs uppercase tracking-[0.2em] text-[#3b3b3b] mb-2">
+                                                Phone Number
+                                            </label>
+                                            <input
+                                                type="tel"
+                                                id="phone"
+                                                value={formData.phone}
+                                                onChange={handleChange}
+                                                className="w-full border border-[rgba(11,30,62,0.2)] bg-[#f7f6f2] px-4 py-3 text-sm text-[#0b1e3e] focus:border-[#c1a45f] focus:outline-none"
+                                                placeholder="+57 3116406379"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label htmlFor="vessel" className="block text-xs uppercase tracking-[0.2em] text-[#3b3b3b] mb-2">
+                                                Vessel Name (if applicable)
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="vessel"
+                                                value={formData.vessel}
+                                                onChange={handleChange}
+                                                className="w-full border border-[rgba(11,30,62,0.2)] bg-[#f7f6f2] px-4 py-3 text-sm text-[#0b1e3e] focus:border-[#c1a45f] focus:outline-none"
+                                                placeholder="M/V Example"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="message" className="block text-xs uppercase tracking-[0.2em] text-[#3b3b3b] mb-2">
+                                            Message *
+                                        </label>
+                                        <textarea
+                                            id="message"
+                                            rows={5}
+                                            required
+                                            value={formData.message}
+                                            onChange={handleChange}
+                                            className="w-full border border-[rgba(11,30,62,0.2)] bg-[#f7f6f2] px-4 py-3 text-sm text-[#0b1e3e] focus:border-[#c1a45f] focus:outline-none"
+                                            placeholder="Tell us about your maritime requirements..."
+                                        />
+                                    </div>
+
+                                    {/* Status Messages */}
+                                    {status === "loading" && (
+                                        <div className="flex items-center gap-3 text-[#c1a45f]">
+                                            <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#c1a45f] border-t-transparent" />
+                                            <span className="text-sm">Sending your message...</span>
+                                        </div>
+                                    )}
+
+                                    {status === "success" && (
+                                        <div className="flex items-center gap-3 text-green-600 bg-green-50 p-3">
+                                            <FaCircleCheck />
+                                            <span className="text-sm">Message sent successfully! We'll get back to you soon.</span>
+                                        </div>
+                                    )}
+
+                                    {status === "error" && (
+                                        <div className="flex items-center gap-3 text-red-600 bg-red-50 p-3">
+                                            <FaXmark />
+                                            <span className="text-sm">{errorMessage || "Failed to send message. Please try again."}</span>
+                                        </div>
+                                    )}
+
+                                    <button
+                                        type="submit"
+                                        disabled={status === "loading"}
+                                        className="inline-flex items-center gap-2 bg-[#0b1e3e] px-6 py-3 font-[family-name:var(--font-subtitle)] text-xs uppercase tracking-[0.26em] text-[#f7f6f2] transition-colors hover:bg-[#c1a45f] disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        {status === "loading" ? "Sending..." : "Send Message"}
+                                        <FaPaperPlane className="text-sm" />
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <Footer />
+        </main>
+    );
 }

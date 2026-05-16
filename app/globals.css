@@ -1,94 +1,26 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: "Requiem Display";
-  src: local("Requiem Display");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Mayfair Display";
-  src: local("Mayfair Display");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Libre Caslon";
-  src: local("Libre Caslon Text"), local("Libre Caslon");
-  font-display: swap;
-}
-
 :root {
-  --background: #f7f6f2;
-  --foreground: #0b1e3e;
-  --font-body: "Requiem Display", "Libre Caslon", Georgia, serif;
-  --font-display: "Requiem Display", "Libre Caslon", Georgia, serif;
-  --font-subtitle: "Mayfair Display", "Libre Caslon", Georgia, serif;
-  --color-paper: #f7f6f2;
-  --color-paper-soft: rgba(247, 246, 242, 0.8);
-  --color-ink: #0b1e3e;
-  --color-muted: #5f6b82;
-  --color-accent: #c1a45f;
-  --color-accent-soft: rgba(193, 164, 95, 0.28);
-  --color-accent-strong: #9c8242;
+  --background: #ffffff;
+  --foreground: #171717;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-body);
-  --font-display: var(--font-display);
-  --font-subtitle: var(--font-subtitle);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
 body {
-  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-body);
-}
-
-a,
-button,
-input,
-select,
-textarea {
-  transition:
-    color 180ms ease,
-    background-color 180ms ease,
-    border-color 180ms ease,
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    filter 180ms ease;
-}
-
-input,
-select,
-textarea {
-  outline: none;
-  font: inherit;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 4px rgba(193, 164, 95, 0.14);
-}
-
-section[id] {
-  scroll-margin-top: 7.5rem;
-}
-
-::selection {
-  background: rgba(193, 164, 95, 0.35);
-  color: var(--color-ink);
+  font-family: Arial, Helvetica, sans-serif;
 }
