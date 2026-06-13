@@ -1,192 +1,173 @@
-// components/layout/Footer.tsx
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
-import {
-  FaEnvelope,
-  FaPhone,
-  FaLocationDot,
-  FaLinkedin,
-  FaTwitter,
-} from "react-icons/fa6";
+import { FaEnvelope, FaLinkedin } from "react-icons/fa6";
+import { useLanguage } from "@/app/context/LanguageContext";
 
-const quickLinks = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "#services" },
-  { label: "Approach", href: "#approach" },
-  { label: "Coverage", href: "#coverage" },
-  { label: "Contact", href: "/contact" },
+const quickLinks = (
+  lang: "es" | "en"
+): { label: string; href: string }[] => [
+  { label: lang === "es" ? "Inicio" : "Home", href: "/" },
+  { label: lang === "es" ? "Servicios" : "Services", href: "#servicios" },
+  { label: lang === "es" ? "Sobre G&P" : "About G&P", href: "#sobre" },
+  { label: lang === "es" ? "Puertos" : "Ports", href: "#puertos" },
+  { label: lang === "es" ? "Contacto" : "Contact", href: "#contacto" },
 ];
 
-const servicesLinks = [
-  { label: "Maritime Agency", href: "/services/maritime-agency" },
-  { label: "Shipping Representatives", href: "/services/shipping-representatives" },
-  { label: "Protective Agent", href: "/services/protective-agent" },
-  { label: "Special Services", href: "/services/special-services" },
+const servicesLinks = (
+  lang: "es" | "en"
+): { label: string; href: string }[] => [
+  {
+    label: lang === "es" ? "Agenciamiento de Buques" : "Ship Agency",
+    href: "#servicios",
+  },
+  {
+    label: lang === "es" ? "Operaciones Logísticas" : "Logistics",
+    href: "#servicios",
+  },
+  {
+    label: lang === "es" ? "Atención a Tripulación" : "Crew Assistance",
+    href: "#servicios",
+  },
+  {
+    label: lang === "es" ? "Documentación" : "Documentation",
+    href: "#servicios",
+  },
+  {
+    label: lang === "es" ? "Consultoría" : "Consulting",
+    href: "#servicios",
+  },
 ];
 
-const contactInfo = [
-  { icon: FaEnvelope, text: "contact@gnpshipagency.com", href: "mailto:contact@gnpshipagency.com" },
-  { icon: FaPhone, text: "+57 (5) 123 4567", href: "tel:+5751234567" },
-  { icon: FaLocationDot, text: "Cartagena, Colombia", href: "#" },
-];
-
-// New office information
-const officeInfo = {
-  location: "Barranquilla, Atlántico",
-  email: "Info@gpshippingcm.com",
-  phone: "+57 3116406379",
-};
-
-const socialLinks = [
-  { icon: FaLinkedin, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: FaTwitter, href: "https://twitter.com", label: "Twitter" },
+const portLinks = [
+  { label: "Barranquilla", href: "#puertos" },
+  { label: "Cartagena", href: "#puertos" },
+  { label: "Santa Marta", href: "#puertos" },
+  { label: "Buenaventura", href: "#puertos" },
+  { label: "Turbo", href: "#puertos" },
 ];
 
 export function Footer() {
+  const { lang } = useLanguage();
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#0b1e3e] text-[#f7f6f2]">
-      {/* Main footer content */}
+    <footer className="bg-[#060f1f] text-[#f7f6f2]">
       <div className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-12">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
-          {/* Brand column */}
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4 pb-10 border-b border-white/5">
           <div className="space-y-5">
-            <div className="border border-[#c1a45f]/20 bg-[#f7f6f2]/5 p-4">
-              <Image
-                src="/logo-2.png"
-                alt="G&P Ship Agency & Co."
-                width={800}
-                height={600}
-                className="h-auto w-full"
-              />
-            </div>
-            <p className="text-sm leading-7 text-[#f7f6f2]/70">
-              Representation with protocol. Honor the port. Execute with precision.
+            <Image
+              src="/logo-2.png"
+              alt="G&P Ship Agency & Co."
+              width={200}
+              height={60}
+              className="h-auto w-40"
+            />
+            <p className="text-sm leading-7 text-[rgba(247,246,242,0.45)] font-[family-name:var(--font-subtitle)]">
+              {lang === "es"
+                ? "Representación marítima de excelencia institucional en los principales puertos de Colombia. Protocolo naval, control operativo y presencia impecable."
+                : "Maritime representation of institutional excellence at Colombia's main ports. Naval protocol, operational control, and impeccable presence."}
             </p>
-            <div className="flex gap-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full border border-[#c1a45f]/30 p-2 text-[#c1a45f] transition-colors hover:bg-[#c1a45f] hover:text-[#0b1e3e]"
-                  aria-label={social.label}
-                >
-                  <social.icon className="h-4 w-4" />
-                </a>
-              ))}
-            </div>
           </div>
 
-          {/* Quick links */}
           <div>
-            <h3 className="font-[family-name:var(--font-subtitle)] text-xs uppercase tracking-[0.34em] text-[#c1a45f]">
-              Navigation
-            </h3>
-            <ul className="mt-5 space-y-3">
-              {quickLinks.map((link) => (
+            <h4 className="font-[family-name:var(--font-subtitle)] text-[10px] uppercase tracking-[0.25em] text-[#c1a45f] mb-5">
+              {lang === "es" ? "Navegación" : "Navigation"}
+            </h4>
+            <ul className="space-y-2">
+              {quickLinks(lang).map((link) => (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-[#f7f6f2]/70 transition-colors hover:text-[#c1a45f]"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Services links */}
-          <div>
-            <h3 className="font-[family-name:var(--font-subtitle)] text-xs uppercase tracking-[0.34em] text-[#c1a45f]">
-              Services
-            </h3>
-            <ul className="mt-5 space-y-3">
-              {servicesLinks.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-[#f7f6f2]/70 transition-colors hover:text-[#c1a45f]"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact info */}
-          <div>
-            <h3 className="font-[family-name:var(--font-subtitle)] text-xs uppercase tracking-[0.34em] text-[#c1a45f]">
-              Contact
-            </h3>
-            <ul className="mt-5 space-y-4">
-              {contactInfo.map((item) => (
-                <li key={item.text}>
                   <a
-                    href={item.href}
-                    className="flex items-start gap-3 text-sm text-[#f7f6f2]/70 transition-colors hover:text-[#c1a45f]"
+                    href={link.href}
+                    className="text-sm text-[rgba(247,246,242,0.45)] transition-colors hover:text-[#c1a45f] font-[family-name:var(--font-subtitle)]"
                   >
-                    <item.icon className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#c1a45f]" />
-                    <span>{item.text}</span>
+                    {link.label}
                   </a>
                 </li>
               ))}
             </ul>
+          </div>
 
-            {/* Main Office - Barranquilla */}
-            <div className="mt-6 border-l-2 border-[#c1a45f] pl-4">
-              <p className="font-[family-name:var(--font-subtitle)] text-[10px] uppercase tracking-[0.3em] text-[#c1a45f]">
-                Main Office
-              </p>
-              <div className="mt-3 space-y-2">
-                <div className="flex items-start gap-3">
-                  <FaLocationDot className="mt-0.5 h-3 w-3 flex-shrink-0 text-[#c1a45f]" />
-                  <span className="text-sm text-[#f7f6f2]/70">{officeInfo.location}</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <FaEnvelope className="mt-0.5 h-3 w-3 flex-shrink-0 text-[#c1a45f]" />
-                  <a href={`mailto:${officeInfo.email}`} className="text-sm text-[#f7f6f2]/70 transition-colors hover:text-[#c1a45f]">
-                    {officeInfo.email}
+          <div>
+            <h4 className="font-[family-name:var(--font-subtitle)] text-[10px] uppercase tracking-[0.25em] text-[#c1a45f] mb-5">
+              {lang === "es" ? "Servicios" : "Services"}
+            </h4>
+            <ul className="space-y-2">
+              {servicesLinks(lang).map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    className="text-sm text-[rgba(247,246,242,0.45)] transition-colors hover:text-[#c1a45f] font-[family-name:var(--font-subtitle)]"
+                  >
+                    {link.label}
                   </a>
-                </div>
-                <div className="flex items-start gap-3">
-                  <FaPhone className="mt-0.5 h-3 w-3 flex-shrink-0 text-[#c1a45f]" />
-                  <a href={`tel:${officeInfo.phone.replace(/\s/g, '')}`} className="text-sm text-[#f7f6f2]/70 transition-colors hover:text-[#c1a45f]">
-                    {officeInfo.phone}
-                  </a>
-                </div>
-              </div>
-            </div>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            {/* Coverage badge */}
-            <div className="mt-6 border-l-2 border-[#c1a45f] pl-4">
-              <p className="font-[family-name:var(--font-subtitle)] text-[10px] uppercase tracking-[0.3em] text-[#c1a45f]">
-                Strategic ports
-              </p>
-              <p className="mt-2 text-sm text-[#f7f6f2]/70">
-                Cartagena • Barranquilla • Santa Marta
-                <br />
-                Buenaventura • Covenas • Turbo
-              </p>
+          <div>
+            <h4 className="font-[family-name:var(--font-subtitle)] text-[10px] uppercase tracking-[0.25em] text-[#c1a45f] mb-5">
+              {lang === "es" ? "Empresa" : "Company"}
+            </h4>
+            <ul className="space-y-2">
+              <li>
+                <a href="#sobre" className="text-sm text-[rgba(247,246,242,0.45)] transition-colors hover:text-[#c1a45f] font-[family-name:var(--font-subtitle)]">
+                  {lang === "es" ? "Sobre nosotros" : "About us"}
+                </a>
+              </li>
+              <li>
+                <a href="#contacto" className="text-sm text-[rgba(247,246,242,0.45)] transition-colors hover:text-[#c1a45f] font-[family-name:var(--font-subtitle)]">
+                  {lang === "es" ? "Contacto" : "Contact"}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-sm text-[rgba(247,246,242,0.45)] transition-colors hover:text-[#c1a45f] font-[family-name:var(--font-subtitle)]">
+                  {lang === "es" ? "Política de privacidad" : "Privacy policy"}
+                </a>
+              </li>
+            </ul>
+
+            <div className="mt-8">
+              <h4 className="font-[family-name:var(--font-subtitle)] text-[10px] uppercase tracking-[0.25em] text-[#c1a45f] mb-4">
+                {lang === "es" ? "Puertos" : "Ports"}
+              </h4>
+              <ul className="space-y-2">
+                {portLinks.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="text-sm text-[rgba(247,246,242,0.45)] transition-colors hover:text-[#c1a45f] font-[family-name:var(--font-subtitle)]"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-[#c1a45f]/20 bg-[#0b1e3e]/80">
-        <div className="mx-auto max-w-7xl px-6 py-6 sm:px-10 lg:px-12">
-          <div className="flex flex-col items-center justify-between gap-4 text-center sm:flex-row">
-            <p className="text-xs text-[#f7f6f2]/50">
-              © {currentYear} G&amp;P Ship Agency &amp; Co. All rights reserved.
-            </p>
-            <p className="text-xs text-[#f7f6f2]/50">
-              Maritime excellence with institutional protocol
-            </p>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-6">
+          <p className="text-xs text-[rgba(247,246,242,0.3)] font-[family-name:var(--font-subtitle)]">
+            &copy; {currentYear} G&amp;P Ship Agency &amp; Co.{" "}
+            {lang === "es" ? "Todos los derechos reservados." : "All rights reserved."}
+          </p>
+          <div className="flex gap-3">
+            <a
+              href="#"
+              className="w-9 h-9 border border-[rgba(193,164,95,0.2)] flex items-center justify-center text-[rgba(247,246,242,0.4)] transition-all hover:border-[#c1a45f] hover:text-[#c1a45f]"
+              aria-label="LinkedIn"
+            >
+              <FaLinkedin className="w-4 h-4" />
+            </a>
+            <a
+              href="mailto:ops@gpshipagency.com"
+              className="w-9 h-9 border border-[rgba(193,164,95,0.2)] flex items-center justify-center text-[rgba(247,246,242,0.4)] transition-all hover:border-[#c1a45f] hover:text-[#c1a45f]"
+              aria-label="Email"
+            >
+              <FaEnvelope className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </div>

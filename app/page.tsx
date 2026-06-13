@@ -1,17 +1,29 @@
-import { Coverage } from "./components/coverage";
-import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
+import { StatsBar } from "./components/StatsBar";
+import { PromiseBand } from "./components/PromiseBand";
 import { Services } from "./components/Services";
+import { BrandStatement } from "./components/BrandStatement";
+import { AboutCEO } from "./components/AboutCEO";
+import { Coverage } from "./components/coverage";
+import { Ports } from "./components/Ports";
+import { ContactSection } from "./components/ContactSection";
+import { Footer } from "./components/Footer";
 import { WhatsAppButton } from "./components/WhatsappButton";
 
 export default function Home() {
   return (
     <div>
-      <Header/>
+      <Header />
       <Hero />
+      <StatsBar />
+      <PromiseBand />
       <Services />
+      <BrandStatement />
+      <AboutCEO />
       <Coverage />
+      <Ports />
+      <ContactSection />
       <Footer />
       <WhatsAppButton />
     </div>
