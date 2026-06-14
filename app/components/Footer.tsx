@@ -162,7 +162,7 @@ export function Footer() {
               <FaLinkedin className="w-4 h-4" />
             </a>
             <a
-              href="mailto:ops@gpshipagency.com"
+              href="mailto:Info@gpshippingcm.com"
               className="w-9 h-9 border border-[rgba(193,164,95,0.2)] flex items-center justify-center text-[rgba(247,246,242,0.4)] transition-all hover:border-[#c1a45f] hover:text-[#c1a45f]"
               aria-label="Email"
             >

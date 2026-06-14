@@ -56,8 +56,8 @@ export function Header() {
       <header
         className={`sticky top-0 z-50 w-full transition-all duration-300 ${
           isScrolled
-            ? "bg-white shadow-md py-3"
-            : "bg-white/95 backdrop-blur-sm py-4"
+            ? "bg-[#F6F5F1] shadow-md py-3"
+            : "bg-[#F6F5F1]/95 backdrop-blur-sm py-4"
         }`}
       >
         <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-12">
@@ -140,10 +140,10 @@ export function Header() {
             </p>
             <div className="mt-4 space-y-3">
               <a
-                href="mailto:ops@gpshipagency.com"
+                href="mailto:Info@gpshippingcm.com"
                 className="block text-sm text-[#3b3b3b] transition-colors hover:text-[#c1a45f]"
               >
-                ops@gpshipagency.com
+                Info@gpshippingcm.com
               </a>
               <a
                 href="tel:+573116406379"

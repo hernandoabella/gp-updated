@@ -53,16 +53,8 @@ export function ContactSection() {
       <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-12">
         <div className="grid gap-12 lg:grid-cols-2">
           <div>
-            <p className="font-[family-name:var(--font-subtitle)] text-xs uppercase tracking-[0.42em] text-[#c1a45f] mb-4">
+            <p className="font-[family-name:var(--font-subtitle)] text-xs uppercase tracking-[0.42em] text-[#c1a45f] mb-8">
               {lang === "es" ? "Contacto" : "Contact"}
-            </p>
-            <h2 className="font-[family-name:var(--font-display)] text-3xl md:text-4xl font-light text-[#f7f6f2] leading-tight mb-6">
-              {lang === "es" ? "Ponga su buque en las mejores manos." : "Put your vessel in the best hands."}
-            </h2>
-            <p className="font-[family-name:var(--font-subtitle)] text-sm leading-7 text-[rgba(247,246,242,0.7)]">
-              {lang === "es"
-                ? "Contáctenos para planificar su próxima escala en Colombia. Respondemos en menos de 2 horas durante horario operativo."
-                : "Contact us to plan your next vessel call in Colombia. We respond in under 2 hours during operational hours."}
             </p>
 
             <div className="mt-8 space-y-6">
@@ -102,7 +94,7 @@ export function ContactSection() {
                     Email
                   </p>
                   <p className="font-[family-name:var(--font-subtitle)] text-sm text-[rgba(247,246,242,0.75)]">
-                    ops@gpshipagency.com
+                    Info@gpshippingcm.com
                   </p>
                 </div>
               </div>

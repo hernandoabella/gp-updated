@@ -8,6 +8,7 @@ import { AboutCEO } from "./components/AboutCEO";
 import { Coverage } from "./components/coverage";
 import { Ports } from "./components/Ports";
 import { ContactSection } from "./components/ContactSection";
+import { EventsGallery } from "./components/EventsGallery";
 import { Footer } from "./components/Footer";
 import { WhatsAppButton } from "./components/WhatsappButton";
 
@@ -23,6 +24,7 @@ export default function Home() {
       <AboutCEO />
       <Coverage />
       <Ports />
+      <EventsGallery />
       <ContactSection />
       <Footer />
       <WhatsAppButton />
