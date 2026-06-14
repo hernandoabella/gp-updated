@@ -9,6 +9,7 @@ import { Coverage } from "./components/coverage";
 import { Ports } from "./components/Ports";
 import { ContactSection } from "./components/ContactSection";
 import { EventsGallery } from "./components/EventsGallery";
+import { ClientsCarousel } from "./components/ClientsCarousel";
 import { Footer } from "./components/Footer";
 import { WhatsAppButton } from "./components/WhatsappButton";
 
@@ -25,6 +26,7 @@ export default function Home() {
       <Coverage />
       <Ports />
       <EventsGallery />
+      <ClientsCarousel />
       <ContactSection />
       <Footer />
       <WhatsAppButton />
