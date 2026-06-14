@@ -7,7 +7,7 @@ import { useLanguage } from "@/app/context/LanguageContext";
 const departments = [
   {
     id: "ship-agency",
-    logo: "/shipagencyandco.jpg",
+    logo: "/shipagencyandco.png",
     title: { es: "G&P Ship Agency & Co.", en: "G&P Ship Agency & Co." },
     subtitle: { es: "Agenciamiento Marítimo", en: "Ship Agency" },
     sections: [
@@ -38,7 +38,7 @@ const departments = [
   },
   {
     id: "container-management",
-    logo: "/containermanagment.jpg",
+    logo: "/containermanagment.png",
     title: { es: "G&P Container Management", en: "G&P Container Management" },
     subtitle: { es: "Gestión de Contenedores", en: "Container Management" },
     sections: [
@@ -56,7 +56,7 @@ const departments = [
   },
   {
     id: "marine-survey",
-    logo: "/marinesurveyengineering.jpg",
+    logo: "/marinesurveyengineering.png",
     title: { es: "G&P Marine Survey Engineering", en: "G&P Marine Survey Engineering" },
     subtitle: { es: "Ingeniería e Inspección Marítima", en: "Marine Survey & Engineering" },
     sections: [

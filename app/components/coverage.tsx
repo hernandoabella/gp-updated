@@ -6,32 +6,32 @@ import { FaLocationDot, FaArrowRight } from "react-icons/fa6";
 const coverage = [
   {
     name: "Cartagena",
-    image: "/cartagena.jfif", // Reemplaza con tu imagen
+    image: "/cartagena.jpg",
     description: "Strategic maritime hub with comprehensive agency services, operational readiness, and institutional protocol.",
   },
   {
     name: "Barranquilla",
-    image: "/barranquilla.jfif", // Reemplaza con tu imagen
+    image: "/barranquilla.jpg",
     description: "Strategic maritime hub with comprehensive agency services, operational readiness, and institutional protocol.",
   },
   {
     name: "Santa Marta",
-    image: "/santa-marta.jfif", // Reemplaza con tu imagen
+    image: "/santa-marta.jpg",
     description: "Strategic maritime hub with comprehensive agency services, operational readiness, and institutional protocol.",
   },
   {
     name: "Buenaventura",
-    image: "/buenaventura.jfif", // Reemplaza con tu imagen
+    image: "/buenaventura.jpg",
     description: "Strategic maritime hub with comprehensive agency services, operational readiness, and institutional protocol.",
   },
   {
     name: "Covenas",
-    image: "/covenas.jfif", // Reemplaza con tu imagen
+    image: "/covenas.jpg",
     description: "Strategic maritime hub with comprehensive agency services, operational readiness, and institutional protocol.",
   },
   {
     name: "Turbo",
-    image: "/turbo.jfif", // Reemplaza con tu imagen
+    image: "/turbo.jpg",
     description: "Strategic maritime hub with comprehensive agency services, operational readiness, and institutional protocol.",
   },
 ];
